@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String operator="";
   String text="00";
   String text2="";
+  bool swich = false;
   void Result(String btnclick)
   {
     if(btnclick == ac)
@@ -82,12 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           height: 85,
           width: 98,
-          color: Color(0xFFFFFFFF),
+          // color: swich==false?Colors.white:Colors.black,
           alignment: Alignment.center,
           child: Text(
             "$click",
             style: TextStyle(
                 fontSize: 30,
+                color: swich==false?Colors.black:Colors.white,
                 //fontWeight: FontWeight.bold
             ),
           ),
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           height: 85,
           width: 98,
-          color: Color(0xFFFFFFFF),
+          // color: swich==false?Colors.white:Colors.black,
           alignment: Alignment.center,
           child: Text(
             "$oper",
@@ -119,122 +121,83 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  var darktheme = ThemeData(
+      appBarTheme: AppBarTheme(backgroundColor: Colors.black,),
+      textTheme: TextTheme(bodyText1: TextStyle(color: Colors.red)),
+      brightness: Brightness.dark
+  );
+  var lighttheme = ThemeData(
+      appBarTheme: AppBarTheme(backgroundColor: Colors.red,),
+      textTheme: TextTheme(bodyText1: TextStyle(color: Colors.yellowAccent)),
+      brightness: Brightness.light
+  );
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-          backgroundColor: Color(0xFFFFFFFF),
-          appBar: AppBar(
-            title: Text("Calculator"),
-            centerTitle: true,
-            backgroundColor: Color(0xFFFF5A66),
-          ),
-          body: Align(
-            alignment: Alignment.bottomCenter,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20.0,bottom: 3),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        "$text2",
-                        style: TextStyle(
-                            color: Color(0xFF8D8D8D),
-                            fontSize: 20,
-                          letterSpacing: 2
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left:185,right: 25.0,bottom: 5),
-                    child: Container(
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        "$text",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 70,
-                          overflow: TextOverflow.visible
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          Result(ac);
-                        },
-                        child: Container(
-                          height: 85,
-                          width: 196,
-                          decoration: BoxDecoration(
-                              color: Color(0xFFFF5A66),
-                              borderRadius: BorderRadius.circular(60)
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "$ac",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 45,
-                                fontWeight: FontWeight.bold
-                            ),
+    return MaterialApp(
+      theme: swich==false?lighttheme:darktheme,
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text("Calculator"),
+              centerTitle: true,
+              leading: GestureDetector(onTap: (){setState(() {
+                swich = !swich;
+              });},child: swich==false?Icon(Icons.light_mode):Icon(Icons.dark_mode_outlined))
+            ),
+            body: Align(
+              alignment: Alignment.bottomCenter,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0,bottom: 3),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          "$text2",
+                          style: TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 20,
+                              letterSpacing: 2
                           ),
                         ),
                       ),
-                      Oper("%"),
-                      Oper("/"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Button("7"),
-                      Button("8"),
-                      Button("9"),
-                      Oper("*"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Button("4"),
-                      Button("5"),
-                      Button("6"),
-                      Oper("-"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Button("1"),
-                      Button("2"),
-                      Button("3"),
-                      Oper("+"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Button("00"),
-                      Button("0"),
-                      Button("."),
-                      Expanded(
-                        child: InkWell(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left:185,right: 25.0,bottom: 5),
+                      child: Container(
+                        alignment: Alignment.bottomRight,
+                        child: Text(
+                          "$text",
+                          style: TextStyle(
+                              color: swich==false?Colors.black:Colors.white,
+                              fontSize: 70,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15,right: 15,bottom: 6),
+                      child: Divider(thickness: 1.5,),
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
                           onTap: (){
-                            Result(eql);
+                            Result(ac);
                           },
                           child: Container(
                             height: 85,
-                            width: 98,
+                            width: 196,
                             decoration: BoxDecoration(
                                 color: Color(0xFFFF5A66),
-                                shape: BoxShape.circle
+                                borderRadius: BorderRadius.circular(60)
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              "$eql",
+                              "$ac",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 45,
@@ -243,14 +206,71 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Oper("%"),
+                        Oper("/"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Button("7"),
+                        Button("8"),
+                        Button("9"),
+                        Oper("*"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Button("4"),
+                        Button("5"),
+                        Button("6"),
+                        Oper("-"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Button("1"),
+                        Button("2"),
+                        Button("3"),
+                        Oper("+"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Button("00"),
+                        Button("0"),
+                        Button("."),
+                        Expanded(
+                          child: InkWell(
+                            onTap: (){
+                              Result(eql);
+                            },
+                            child: Container(
+                              height: 85,
+                              width: 98,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFFF5A66),
+                                  shape: BoxShape.circle
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "$eql",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 45,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        )
+          )
+      ),
     );
   }
 }
